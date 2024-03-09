@@ -6,6 +6,8 @@ import { UserService } from 'src/user/user.service';
 
 import { IUser } from 'src/types/common.types';
 
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -30,5 +32,9 @@ export class AuthService {
     return {
       token: this.jwtService.sign({ id, email }),
     };
+  }
+
+  async create(createUserDto: CreateUserDto) {
+    return await this.userService.create(createUserDto);
   }
 }

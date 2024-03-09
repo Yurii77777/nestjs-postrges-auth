@@ -18,8 +18,8 @@
 
 ### Available API
 
-http://localhost:3000/api/user = user register;
-http://localhost:3000/api/auth/login = user login;
+http://localhost:3000/api/auth/sign-up = user register; [POST]
+http://localhost:3000/api/auth/sign-in = user login; [POST]
 
 ### Additionally
 
