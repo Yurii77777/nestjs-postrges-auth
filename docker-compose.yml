@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: postgres-migration
+    image: postgres:14.0-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${TYPEORM_USERNAME}
+      - POSTGRES_PASSWORD=${TYPEORM_PASSWORD}
+      - POSTGRES_DB=${TYPEORM_DATABASE}
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - app-network
+    ports:
+      - ${TYPEORM_PORT}:${TYPEORM_PORT}
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgres://${TYPEORM_USERNAME}:${TYPEORM_PASSWORD}@db:5432/${TYPEORM_DATABASE}
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
